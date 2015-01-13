@@ -1,0 +1,96 @@
+body {padding: 0; margin: 0}
+html, body, #mapdiv {height: 100%; width: 100%;}
+.leaflet-container {background: #fff;}
+.data {
+  stroke-width: 2px;
+  stroke-opacity: 0.8;
+  fill-opacity: 0.3;
+  stroke: #ffaa00;
+  display: inline;
+}
+.admarea {
+}
+.admbdry {
+  stroke: #f00;
+  stroke-width: 3px;
+}
+.admpt {
+}
+.blda {
+  stroke: none;
+  fill: #ffe6be;
+  fill: #9883c9;
+  /*fill-opacity: 1;*/
+}
+.bldl {
+  stroke: #ff7d23;
+  display: none;
+}
+.bldl_kenro {
+  stroke-width: 3px;
+}
+.bldl_futsu {
+  stroke-width: 1px;
+}
+.cntr {
+  stroke: #cfa10a;
+  stroke-width: 1px;
+  /*display: none;*/
+}
+.commbdry {
+  stroke: #f00;
+  stroke-width: 1px;
+  stroke-dasharray: 10, 10;
+}
+.commpt {
+}
+.cstline {
+  stroke: #46b3ff;
+}
+.elevpt {
+  stroke: #888;
+  fill: #f00;
+}
+.gcp {
+  stroke: #f00;
+  fill: #f00;
+}
+.railcl {
+  stroke: #640000;
+}
+.railcl_tunnel {
+  stroke-dasharray: 5, 5;
+}
+.rdcompt {
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+.rdedg {
+  stroke: #ccc;
+}
+.sbapt {
+}
+.sbbdry {
+  stroke: #f00;
+}
+.wa {
+  stroke: none;
+  fill: #bed2ff;
+  /*display: none;*/
+  /*fill-opacity: 1;*/
+}
+.wl {
+  stroke: #46b3ff;
+  stroke-width: 1px;
+  display: none;
+}
+.wl_ichijo {
+  stroke-width: 2px;
+}
+.wstra {
+}
+.wstrl {
+  stroke: #46b3ff;
+}
+.hidden {
+}
