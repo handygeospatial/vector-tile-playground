@@ -1,6 +1,14 @@
 body {padding: 0; margin: 0}
 html, body, #mapdiv {height: 100%; width: 100%;}
 .leaflet-container {background: #fff;}
+.leaflet-div-icon {
+  font-family : "ヒラギノ丸ゴ Pro W4", "Hiragino maru Gothic Pro", "HG丸ｺﾞｼｯｸM-PRO","Verdana","Osaka",sans-serif;
+	background: none;
+	white-space: nowrap;
+	border:none;
+	white-space:nowrap;
+	font-size:14pt;
+}
 .data {
   stroke-width: 2px;
   stroke-opacity: 0.8;

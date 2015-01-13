@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>地理院ベクトルタイル提供実験（基盤地図情報（基本項目））</title>
+<title>vector-tile-playground</title>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
 <link rel="stylesheet" href="./map.css"/>
 </head>
@@ -16,14 +16,14 @@
 <script>
 var std = L.tileLayer(
   'http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
-    maxZoom: 18, maxNativeZoom: 18, attribution: '地理院タイル（標準地図）'});
+    maxZoom: 18, maxNativeZoom: 18, attribution: 'GSI Tiles (standard map)'});
 var ort = L.tileLayer(
   'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
-    maxZoom: 24, maxNativeZoom: 17, attribution: '地理院タイル（オルソ画像）'});
+    maxZoom: 24, maxNativeZoom: 17, attribution: 'GSI Tiles (orthophotos)'});
 var fgd = new L.TileLayer.GeoJSON(
   'http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson', {
     minZoom: 18, maxNativeZoom: 18, maxZoom: 24, 
-    attribution: '基盤地図情報（国土地理院ベクトルタイル提供実験）'
+    attribution: 'FGD (GSI vector tile experiment)'
   }, {
     filter: function(feat) {
       return !(feat.properties.class == 'AdmArea' ||
@@ -34,8 +34,9 @@ var fgd = new L.TileLayer.GeoJSON(
       );
     },
     pointToLayer: function(feat, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 2, 
+      return L.marker(latlng, {
+        icon: L.divIcon({html: feat.properties.name ||
+          feat.properties.type}) 
       });
     },
     style: function(feat) {
@@ -70,7 +71,7 @@ var fgd = new L.TileLayer.GeoJSON(
     }
   });
 var map = L.map('mapdiv', {
-  center: [36.06575, 140.14255], zoom: 18,
+  center: [36.06476, 140.13946], zoom: 18,
   layers: [fgd]});
 
 var hash = L.hash(map);
