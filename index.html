@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>地理院ベクトルタイル提供実験（基盤地図情報（基本項目））</title>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
+<link rel="stylesheet" href="./map.css"/>
+</head>
+<body>
+<div id="mapdiv"></div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script src="http://handygeospatial.github.io/mapsites/js/leaflet-hash.js"></script>
+<script src="http://handygeospatial.github.io/mapsites/js/TileLayer.GeoJSON.js"></script>
+<script src="http://handygeospatial.github.io/mapsites/js/corslite.js"></script>
+<script>
+var std = L.tileLayer(
+  'http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+    maxZoom: 18, maxNativeZoom: 18, attribution: '地理院タイル（標準地図）'});
+var ort = L.tileLayer(
+  'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg', {
+    maxZoom: 24, maxNativeZoom: 17, attribution: '地理院タイル（オルソ画像）'});
+var fgd = new L.TileLayer.GeoJSON(
+  'http://cyberjapandata.gsi.go.jp/xyz/experimental_fgd/{z}/{x}/{y}.geojson', {
+    minZoom: 18, maxNativeZoom: 18, maxZoom: 24, 
+    attribution: '基盤地図情報（国土地理院ベクトルタイル提供実験）'
+  }, {
+    filter: function(feat) {
+      return !(feat.properties.class == 'AdmArea' ||
+        feat.properties.class == 'WStrA' ||
+        feat.properties.class == 'SBAPt' ||
+        feat.properties.class == 'SBBdry' ||
+        (feat.properties.class == 'AdmBdry' && feat.properties.orgGILvl == 2500)
+      );
+    },
+    pointToLayer: function(feat, latlng) {
+      return L.circleMarker(latlng, {
+        radius: 2, 
+      });
+    },
+    style: function(feat) {
+      var className = 'data ' + feat.properties.class.toLowerCase() +
+        (feat.properties.type == '一条河川' ? ' wl_ichijo' : '') +
+        (feat.properties.type == 'トンネル内の鉄道' ? ' railcl_tunnel' : '') +
+        (feat.properties.vis == '非表示' ? ' hidden' : '');
+      if(feat.properties.class == 'BldL') {
+        className += 
+          (feat.properties.type == '堅ろう建物' ? ' bldl_kenro' : '') +
+          (feat.properties.type == '普通建物' ? ' bldl_futsu' : '') +
+          (feat.properties.type == '堅ろう無壁舎' ? ' bldl_futsu' : '');
+      }
+      feat.className = className;
+      return {
+        className: className
+      };
+    },
+    onEachFeature: function(feat, layer) {
+      var popupString = '<table class="popup" border="1">';
+      for (var k in feat.properties) {
+        var v = feat.properties[k];
+        if(k == 'height' || k == 'alti') {v = v.toFixed(2);}
+        popupString += '<tr><td>' + k + '</td><td>' + v + '</td></tr>';
+      }
+      popupString += '<tr><td>className</td><td>' +
+        feat.className + '</td></tr>';
+      popupString += '<tr><td>geometry</td><td>' +
+        feat.geometry.type + '</td></tr>';
+      popupString += '</table>';
+      layer.bindPopup(popupString);
+    }
+  });
+var map = L.map('mapdiv', {
+  center: [36.06575, 140.14255], zoom: 18,
+  layers: [fgd]});
+
+var hash = L.hash(map);
+L.control.layers({}, {
+  '地理院タイル（標準地図）': std,
+  '地理院タイル（オルソ画像）': ort,
+  '基盤地図情報（国土地理院ベクトルタイル提供実験）': fgd
+}).addTo(map);
+</script>
+</body>
+</html>
