@@ -43,7 +43,7 @@ html, body, #mapdiv {height: 100%; width: 100%;}
 .cntr {
   stroke: #cfa10a;
   stroke-width: 1px;
-  /*display: none;*/
+  display: none;
 }
 .commbdry {
   stroke: #f00;
